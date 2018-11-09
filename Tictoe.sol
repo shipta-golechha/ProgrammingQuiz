@@ -95,22 +95,22 @@ contract Tictoe
 	   return 0;
     }
     
-    function play_game(uint x, uint y) public number_of_players() check_game(x,y) view returns (string message, uint  turnr){
+    function play_game(uint x, uint y) public number_of_players() check_game(x,y)  returns (string message){
         uint result = 0; 
         if(turn == 0 && msg.sender == player1)
         {
            
             //player1
                 game[x][y] = 1;
-                //turn = 1;
+                turn = 1;
                 noofturns += 1;
                 result = check_result(uint(1));
                 if(result == 1){
-                    return ("Player1 is winner",turn);
+                    return ("Player1 is winner");
                     
                 }
                 else if(result == 2){
-                    return ("Game Draw",turn);
+                    return ("Game Draw");
                 }
         
            
@@ -120,25 +120,25 @@ contract Tictoe
              
              //player2
                  game[x][y] = 2;
-                 //turn = 0;
+                 turn = 0;
                  noofturns += 1;
                  result = check_result(uint(2));
                  
                  if(result == 1){
-                    return ("Player2 is winner",turn);
+                    return ("Player2 is winner");
                     
                 }
                 
                 else if(result == 2){
-                    return ("Game Draw",turn);
+                    return ("Game Draw");
                 }
             
         }
         else 
         {
-            return ("Not your turn",turn);
+            return ("Not your turn");
         }
-       turn = 1-turn;
+       
     
     }    
     

@@ -2,13 +2,13 @@ pragma solidity ^0.4.24;
 
 contract Tictoe
 {
-    address organiser;
-    address player1;
-    address player2;
-    uint[3][3] game;
-    uint turn;
-    uint noofplayers;
-    uint noofturns;
+    address public organiser;
+    address public player1;
+    address public player2;
+    uint[3][3]  public game;
+    uint public turn;
+    uint public noofplayers;
+    uint public noofturns;
     
     constructor(){
         organiser = msg.sender;
@@ -90,41 +90,57 @@ contract Tictoe
 	   return 0;
     }
     
-    function play_game(uint x, uint y) public number_of_players() view returns (string message){
+    function play_game(uint x, uint y) public number_of_players()  view returns (string message){
         uint result = 0; 
         if(turn == 0)
         {
+            if(msg.sender == player1){
             //player1
-            game[x][y] = 1;
-            turn = 1;
-            noofturns += 1;
-            result = check_result(uint(1));
-            if(result == 1){
-                return ("Player1 is winner");
-                
+                game[x][y] = 1;
+                turn = 1;
+                noofturns += 1;
+                result = check_result(uint(1));
+                if(result == 1){
+                    return ("Player1 is winner");
+                    
+                }
+                else if(result == 2){
+                    return ("Game Draw");
+                }
             }
-            else if(result == 2){
-                return ("Game Draw");
-            }
+            else 
+             {
+                return ("player2 turn");
+             }
         }
         else if(turn == 1)
         {
+             if( msg.sender == player2){
              //player2
-             game[x][y] = 2;
-             turn = 0;
-             noofturns += 1;
-             result = check_result(uint(2));
-             
-             if(result == 1){
-                return ("Player2 is winner");
+                 game[x][y] = 2;
+                 turn = 0;
+                 noofturns += 1;
+                 result = check_result(uint(2));
+                 
+                 if(result == 1){
+                    return ("Player2 is winner");
+                    
+                }
                 
+                else if(result == 2){
+                    return ("Game Draw");
+                }
             }
             
-            else if(result == 2){
-                return ("Game Draw");
-            }
+            else 
+             {
+                return ("player1 turn");
+             }
         }
-        
+        // else 
+        // {
+        //     return ("Not your turn");
+        // }
        
     
     }    

@@ -30,14 +30,14 @@ contract Tictoe
         _;
     }
     
-    function register_player(address play){
+    function register_player(){
         
         if(noofplayers == 0){
-            player1 = play;
+            player1 = msg.sender;
             noofplayers +=1;
         }
         else if(noofplayers == 1){
-            player2 = play;
+            player2 = msg.sender;
             noofplayers +=1;
         }
     }
@@ -45,10 +45,10 @@ contract Tictoe
     
     function rowCrossed() returns (bool)
    {
-       for (int i=0; i<3; i++)
+       for (uint i=0; i<3; i++)
        {
            if (game[i][0] == game[i][1] &&
-               game[i][1] == game[i][2])
+               game[i][1] == game[i][2] && game[i][0] !=0)
                return (true);
        }
        return(false);
@@ -56,10 +56,10 @@ contract Tictoe
     
    function columnCrossed() returns (bool)
    {
-       for (int i=0; i<3; i++)
+       for (uint i=0; i<3; i++)
        {
            if (game[0][i] == game[1][i] &&
-               game[1][i] == game[2][i])
+               game[1][i] == game[2][i] && game[0][i] !=0)
                return (true);
        }
        return(false);
@@ -68,11 +68,11 @@ contract Tictoe
    function diagonalCrossed() returns (bool)
    {
        if (game[0][0] == game[1][1] &&
-           game[1][1] == game[2][2])
+           game[1][1] == game[2][2] && game[0][0] != 0)
            return(true);
             
        if (game[0][2] == game[1][1] &&
-           game[1][1] == game[2][0])
+           game[1][1] == game[2][0] && game[0][2] != 0)
            return(true);
     
        return(false);
@@ -90,7 +90,7 @@ contract Tictoe
 	   return 0;
     }
     
-    function play_game(uint x, uint y) public number_of_players(){
+    function play_game(uint x, uint y) public number_of_players() view returns (string message){
         uint result = 0; 
         if(turn == 0)
         {
@@ -99,6 +99,13 @@ contract Tictoe
             turn = 1;
             noofturns += 1;
             result = check_result(uint(1));
+            if(result == 1){
+                return ("Player1 is winner");
+                
+            }
+            else if(result == 2){
+                return ("Game Draw");
+            }
         }
         else if(turn == 1)
         {
@@ -107,10 +114,19 @@ contract Tictoe
              turn = 0;
              noofturns += 1;
              result = check_result(uint(2));
+             
+             if(result == 1){
+                return ("Player2 is winner");
+                
+            }
+            
+            else if(result == 2){
+                return ("Game Draw");
+            }
         }
         
-        
-    }
+       
     
+    }    
     
 }
